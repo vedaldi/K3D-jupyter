@@ -34,6 +34,7 @@ module.exports = {
                 attribute = (config.attribute && config.attribute.data) || null,
                 vertices = (config.vertices && config.vertices.data) || null,
                 indices = (config.indices && config.indices.data) || null,
+                verticesColors = (config.colors && config.colors.data) || null,
                 uvs = (config.uvs && config.uvs.data) || null,
                 geometry = new THREE.BufferGeometry(),
                 ObjectConstructor = THREE.Mesh,
@@ -59,6 +60,11 @@ module.exports = {
                 depthWrite: config.opacity === 1.0,
                 transparent: config.opacity !== 1.0
             });
+
+            if (verticesColors) {
+                material.setValues({ vertexColors: true });
+                geometry.setAttribute('color', new THREE.BufferAttribute(verticesColors, 3));
+            }
 
             function finish() {
                 if (config.flat_shading === false) {
